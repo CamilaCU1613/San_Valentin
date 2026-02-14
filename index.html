@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Para mi Valentín ✨</title>
+    <style>
+        :root {
+            --color-sobre: #ff4d6d;
+            --color-tapa: #ff758f;
+            --color-carta: #fff5f5;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #1a1a2e; /* Fondo oscuro tipo espacio */
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Contenedor del Sobre */
+        .envelope-wrapper {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background-color: var(--color-sobre);
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Tapa del sobre */
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            z-index: 4;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 110px solid var(--color-tapa);
+            transform-origin: top;
+            transition: transform 0.5s 0.3s;
+        }
+
+        /* Lados del sobre */
+        .envelope::after {
+            content: "";
+            position: absolute;
+            z-index: 3;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 110px solid var(--color-sobre);
+            bottom: 0;
+        }
+
+        /* La Carta (PDF o Mensaje) */
+        .letter {
+            position: absolute;
+            bottom: 10px;
+            left: 10%;
+            width: 80%;
+            height: 180px;
+            background: var(--color-carta);
+            z-index: 2;
+            transition: transform 0.6s, bottom 0.6s;
+            padding: 15px;
+            box-sizing: border-box;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        /* Animación al hacer clic */
+        .envelope-wrapper.open .envelope::before {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .envelope-wrapper.open .letter {
+            transform: scale(1.5);
+            bottom: 120px;
+            z-index: 5;
+        }
+
+        /* Fotos que explotan */
+        .photo {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border: 3px solid white;
+            border-radius: 10px;
+            opacity: 0;
+            transition: all 0.8s ease-out;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="envelope-wrapper" onclick="openEnvelope()">
+        <div class="envelope">
+            <div class="letter">
+                <p>❤️</p>
+                <small>Haz clic para abrir tu regalo</small>
+                <br><br>
+                <a id="pdf-link" href="tu_archivo.pdf" target="_blank" style="display:none; color: #ff4d6d; text-decoration: none; font-weight: bold;">[ Abrir Carta Completa ]</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openEnvelope() {
+            const wrapper = document.querySelector('.envelope-wrapper');
+            if(wrapper.classList.contains('open')) return;
+            
+            wrapper.classList.add('open');
+            document.getElementById('pdf-link').style.display = 'inline';
+
+            // Generar fotos volando
+            const totalFotos = 8;
+            for(let i=0; i < totalFotos; i++) {
+                createPhoto(i);
+            }
+        }
+
+        function createPhoto(index) {
+            const img = document.createElement('img');
+            // Reemplaza estas URLs con tus fotos reales o locales
+            img.src = `https://picsum.photos/200?random=${index}`; 
+            img.classList.add('photo');
+            document.body.appendChild(img);
+
+            // Posición inicial (dentro del sobre)
+            img.style.left = "50%";
+            img.style.top = "50%";
+
+            // Explosión aleatoria
+            setTimeout(() => {
+                const angle = (index / 8) * Math.PI * 2;
+                const dist = 250 + Math.random() * 100;
+                const x = Math.cos(angle) * dist;
+                const y = Math.sin(angle) * dist;
+
+                img.style.opacity = "1";
+                img.style.transform = `translate(${x}px, ${y}px) rotate(${Math.random() * 40 - 20}deg)`;
+            }, 100);
+        }
+    </script>
+</body>
+</html>
