@@ -127,7 +127,7 @@
             document.getElementById('pdf-link').style.display = 'inline';
 
             // Generar fotos volando
-            const totalFotos = 8;
+            const totalFotos = 24;
             for(let i=0; i < totalFotos; i++) {
                 createPhoto(i);
             }
@@ -149,7 +149,7 @@
         
             // Explosión aleatoria
             setTimeout(() => {
-                const angle = (index / 8) * Math.PI * 2;
+                const angle = (index / 24) * Math.PI * 2;
                 const dist = 250 + Math.random() * 100;
                 const x = Math.cos(angle) * dist;
                 const y = Math.sin(angle) * dist;
