@@ -135,26 +135,30 @@
 
         function createPhoto(index) {
             const img = document.createElement('img');
-            // Reemplaza estas URLs con tus fotos reales o locales
-            img.src = `https://picsum.photos/200?random=${index}`; 
+            
+            // Esto hará que use Foto1.jpeg y Foto2.jpeg alternadamente
+            const numeroFoto = (index % 3) + 1; 
+            img.src = `Foto${numeroFoto}.jpeg`; 
+            
             img.classList.add('photo');
             document.body.appendChild(img);
-
+        
             // Posición inicial (dentro del sobre)
             img.style.left = "50%";
             img.style.top = "50%";
-
+        
             // Explosión aleatoria
             setTimeout(() => {
                 const angle = (index / 8) * Math.PI * 2;
                 const dist = 250 + Math.random() * 100;
                 const x = Math.cos(angle) * dist;
                 const y = Math.sin(angle) * dist;
-
+        
                 img.style.opacity = "1";
                 img.style.transform = `translate(${x}px, ${y}px) rotate(${Math.random() * 40 - 20}deg)`;
             }, 100);
         }
+        
     </script>
 </body>
 </html>
